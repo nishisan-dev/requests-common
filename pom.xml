@@ -16,7 +16,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Nishisan-dev Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/nishisan-dev/requests-commom.git</url>
+            <url>https://github.com/nishisan-dev/requests-commom.git</url>
         </repository>     
     </repositories>
     <properties>
