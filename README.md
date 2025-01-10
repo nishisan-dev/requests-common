@@ -76,7 +76,7 @@ public class MyComplexType {
 
 
 
-Este projeto é licenciado sob a [Licença GNU v2](LICENSE). Consulte o arquivo de licença para mais detalhes.
+Este projeto é licenciado sob a [Licença GNU v3](https://www.gnu.org/licenses/lgpl-3.0.txt). Consulte o arquivo de licença para mais detalhes.
 
 ---
 
