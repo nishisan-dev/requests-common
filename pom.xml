@@ -5,6 +5,13 @@
     <artifactId>requests-commom</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
+    <distributionManagement>
+        <repository>
+            <id>github</id>       
+            <name>Releases</name>           
+            <url>https://maven.pkg.github.com/nishisan/requests-commom</url> 
+        </repository>
+    </distributionManagement>   
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
