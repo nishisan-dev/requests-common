@@ -14,11 +14,11 @@
     </distributionManagement>   
     <repositories>
         <repository>
-              <id>requests-commom</id>
-              <name>Main Requests Repository</name>
-              <url>git@github.com:nishisan-dev/requests-commom.git</url>
-        </repository>        
-  </repositories>
+            <id>github</id>
+            <name>GitHub Nishisan-dev Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/nishisan-dev/requests-commom.git</url>
+        </repository>     
+    </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
