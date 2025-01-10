@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura <lucas.nishimura at gmail.com>
+ * Copyright (C) 2025 Lucas Nishimura < lucas at nishisan.dev > 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,34 +15,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.request;
+package dev.nishisan.requests.commom.response;
 
-import dev.nishisan.requests.commom.uc.IUserCredential;
 import java.util.Map;
 
 /**
  *
- * @author Lucas Nishimura <lucas.nishimura at gmail.com>
- * @created 08.01.2025
+ * @author Lucas Nishimura < lucas at nishisan.dev >
  */
-public interface IRequest<T> {
+public interface IResponse<T> {
 
-    public String getRequestId();
+    public String getSourceRequestId();
 
-    public void setRequestId(String id);
+    public void setSourceRequestId(String id);
+
+    public void setResponseId(String id);
+
+    public String getResponseId();
 
     public T getPayload();
 
     public void setPayload(T payload);
 
-    public void addRequestHeader(String name, String value);
+    public void setStatusCode(int code);
 
-    public Map<String, String> getRequestHeaders();
+    public int getStatusCode();
 
-    public String getRequestHeader(String name);
+    public void addResponseHeader(String name, String value);
 
-    public void setUserCredential(IUserCredential credential);
+    public String getResponseHeader(String name);
 
-    public IUserCredential getUserCredential();
-
+    public Map<String, String> getResponseHeaders();
 }

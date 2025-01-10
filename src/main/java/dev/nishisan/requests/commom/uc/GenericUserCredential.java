@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura <lucas.nishimura at gmail.com>
+ * Copyright (C) 2025 Lucas Nishimura < lucas at nishisan.dev > 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,34 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.request;
-
-import dev.nishisan.requests.commom.uc.IUserCredential;
-import java.util.Map;
+package dev.nishisan.requests.commom.uc;
 
 /**
  *
- * @author Lucas Nishimura <lucas.nishimura at gmail.com>
- * @created 08.01.2025
+ * @author Lucas Nishimura < lucas at nishisan.dev >
  */
-public interface IRequest<T> {
+public class GenericUserCredential extends AbsUserCredential<Object> {
 
-    public String getRequestId();
+    public GenericUserCredential() {
+    }
 
-    public void setRequestId(String id);
-
-    public T getPayload();
-
-    public void setPayload(T payload);
-
-    public void addRequestHeader(String name, String value);
-
-    public Map<String, String> getRequestHeaders();
-
-    public String getRequestHeader(String name);
-
-    public void setUserCredential(IUserCredential credential);
-
-    public IUserCredential getUserCredential();
+    public GenericUserCredential(String userId) {
+        super(userId);
+    }
 
 }
