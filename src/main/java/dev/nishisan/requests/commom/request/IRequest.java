@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  *
- * @author Lucas Nishimura <lucas.nishimura at gmail.com>
+ * @author Lucas Nishimura < lucas at nishisan.dev>
  * @created 08.01.2025
  */
 public interface IRequest<T> {
