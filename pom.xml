@@ -9,7 +9,7 @@
         <repository>
             <id>github</id>       
             <name>Releases</name>           
-            <url>https://maven.pkg.github.com/nishisan/requests-commom</url> 
+            <url>https://maven.pkg.github.com/nishisan-dev/requests-commom</url> 
         </repository>
     </distributionManagement>   
     <properties>
