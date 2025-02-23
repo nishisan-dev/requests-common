@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura < lucas at nishisan.dev > 
+ * Copyright (C) 2025 Lucas Nishimura 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,90 +22,135 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Abstract class representing a generic response.
  *
- * @author Lucas Nishimura < lucas at nishisan.dev >
+ * @param <T> the type of the payload
+ * 
+ * @author Lucas Nishimura
  */
 public abstract class AbsResponse<T> implements IResponse<T> {
 
     private String sourceRequestId;
-
     private String responseId;
-
     private T payload;
-
     private int statusCode;
-
     private Map<String, String> responseHeaders = new ConcurrentHashMap<>();
 
+    /**
+     * Default constructor that generates a unique response ID.
+     */
     public AbsResponse() {
         this.responseId = UUID.randomUUID().toString();
     }
 
+    /**
+     * Constructor with source request ID and payload.
+     *
+     * @param sourceRequestId the ID of the source request
+     * @param payload the payload of the response
+     */
     public AbsResponse(String sourceRequestId, T payload) {
         this();
         this.sourceRequestId = sourceRequestId;
         this.payload = payload;
-
     }
 
+    /**
+     * Constructor with payload.
+     *
+     * @param payload the payload of the response
+     */
     public AbsResponse(T payload) {
         this();
         this.payload = payload;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getSourceRequestId() {
         return this.sourceRequestId;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSourceRequestId(String id) {
         this.sourceRequestId = id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setResponseId(String id) {
         this.responseId = id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getResponseId() {
         return this.responseId;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T getPayload() {
         return this.payload;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setPayload(T payload) {
         this.payload = payload;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setStatusCode(int code) {
         this.statusCode = code;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getStatusCode() {
         return this.statusCode;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addResponseHeader(String name, String value) {
         this.responseHeaders.put(name, value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getResponseHeader(String name) {
         return this.responseHeaders.get(name);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<String, String> getResponseHeaders() {
-        return this.getResponseHeaders();
+        return this.responseHeaders;
     }
 
 }

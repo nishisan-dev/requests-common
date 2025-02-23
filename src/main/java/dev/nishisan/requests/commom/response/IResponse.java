@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura < lucas at nishisan.dev > 
+ * Copyright (C) 2025 Lucas Nishimura 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,30 +20,90 @@ package dev.nishisan.requests.commom.response;
 import java.util.Map;
 
 /**
+ * Interface representing a generic response.
  *
- * @author Lucas Nishimura < lucas at nishisan.dev >
+ * @param <T> the type of the payload
+ * 
+ * @author Lucas Nishimura
  */
 public interface IResponse<T> {
 
+    /**
+     * Gets the source request ID.
+     *
+     * @return the source request ID
+     */
     public String getSourceRequestId();
 
+    /**
+     * Sets the source request ID.
+     *
+     * @param id the new source request ID
+     */
     public void setSourceRequestId(String id);
 
+    /**
+     * Sets the response ID.
+     *
+     * @param id the new response ID
+     */
     public void setResponseId(String id);
 
+    /**
+     * Gets the response ID.
+     *
+     * @return the response ID
+     */
     public String getResponseId();
 
+    /**
+     * Gets the payload of the response.
+     *
+     * @return the payload
+     */
     public T getPayload();
 
+    /**
+     * Sets the payload of the response.
+     *
+     * @param payload the new payload
+     */
     public void setPayload(T payload);
 
+    /**
+     * Sets the status code of the response.
+     *
+     * @param code the new status code
+     */
     public void setStatusCode(int code);
 
+    /**
+     * Gets the status code of the response.
+     *
+     * @return the status code
+     */
     public int getStatusCode();
 
+    /**
+     * Adds a header to the response.
+     *
+     * @param name the name of the header
+     * @param value the value of the header
+     */
     public void addResponseHeader(String name, String value);
 
+    /**
+     * Gets a specific header by name.
+     *
+     * @param name the name of the header
+     * @return the value of the header, or null if not found
+     */
     public String getResponseHeader(String name);
 
+    /**
+     * Gets all the headers of the response.
+     *
+     * @return a map of header names to values
+     */
     public Map<String, String> getResponseHeaders();
 }

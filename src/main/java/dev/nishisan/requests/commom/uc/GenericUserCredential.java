@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura < lucas at nishisan.dev > 
+ * Copyright (C) 2025 Lucas Nishimura 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,14 +18,25 @@
 package dev.nishisan.requests.commom.uc;
 
 /**
- *
- * @author Lucas Nishimura < lucas at nishisan.dev >
+ * Class representing generic user credentials.
+ * 
+ * This class extends {@link AbsUserCredential} with a payload of type {@link Object}.
+ * 
+ * @author Lucas Nishimura
  */
 public class GenericUserCredential extends AbsUserCredential<Object> {
 
+    /**
+     * Default constructor.
+     */
     public GenericUserCredential() {
     }
 
+    /**
+     * Constructor with user ID.
+     *
+     * @param userId the user ID
+     */
     public GenericUserCredential(String userId) {
         super(userId);
     }

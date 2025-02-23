@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura < lucas at nishisan.dev > 
+ * Copyright (C) 2025 Lucas Nishimura 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,17 +18,40 @@
 package dev.nishisan.requests.commom.uc;
 
 /**
+ * Interface representing user credentials.
  *
- * @author Lucas Nishimura < lucas at nishisan.dev >
+ * @param <T> the type of the user data
+ * 
+ * @author Lucas Nishimura
  */
 public interface IUserCredential<T> {
 
+    /**
+     * Sets the user ID.
+     *
+     * @param id the new user ID
+     */
     public void setUserId(String id);
 
+    /**
+     * Gets the user ID.
+     *
+     * @return the user ID
+     */
     public String getUserId();
 
+    /**
+     * Sets the user data.
+     *
+     * @param userData the new user data
+     */
     public void setUserData(T userData);
 
+    /**
+     * Gets the user data.
+     *
+     * @return the user data
+     */
     public T getUserData();
 
 }

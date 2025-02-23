@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura < lucas at nishisan.dev > 
+ * Copyright (C) 2025 Lucas Nishimura 
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,13 +17,17 @@
  */
 package dev.nishisan.requests.commom.request;
 
-import dev.nishisan.requests.commom.uc.IUserCredential;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import dev.nishisan.requests.commom.uc.IUserCredential;
+
 /**
+ * Abstract class representing a generic request.
  *
- * @author Lucas Nishimura < lucas at nishisan.dev >
+ * @param <T> the type of the payload
+ * 
+ * @author Lucas Nishimura
  */
 public abstract class AbsRequest<T> implements IRequest<T> {
 
@@ -32,46 +36,73 @@ public abstract class AbsRequest<T> implements IRequest<T> {
     private IUserCredential userCredential;
     private Map<String, String> requestHeaders = new ConcurrentHashMap<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getRequestId() {
         return this.requestId;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setRequestId(String id) {
         this.requestId = id;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T getPayload() {
         return this.payload;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setPayload(T payload) {
         this.payload = payload;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addRequestHeader(String name, String value) {
         this.requestHeaders.put(name, value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<String, String> getRequestHeaders() {
         return this.requestHeaders;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getRequestHeader(String name) {
         return this.requestHeaders.get(name);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setUserCredential(IUserCredential credential) {
         this.userCredential = credential;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IUserCredential getUserCredential() {
         return this.userCredential;
