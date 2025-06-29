@@ -32,6 +32,7 @@ import dev.nishisan.requests.commom.uc.IUserCredential;
 public abstract class AbsRequest<T> implements IRequest<T> {
 
     private String requestId;
+    private String traceId;
     private T payload;
     private IUserCredential userCredential;
     private Map<String, String> requestHeaders = new ConcurrentHashMap<>();
@@ -108,4 +109,12 @@ public abstract class AbsRequest<T> implements IRequest<T> {
         return this.userCredential;
     }
 
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
 }

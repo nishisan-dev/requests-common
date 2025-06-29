@@ -10,7 +10,7 @@ import java.util.Map;
 public abstract class BasicExcepion extends Exception implements Serializable, IBasicException {
     protected IRequest<? extends AbsRequest> request;
     protected Integer statusCode = 500;
-    private Map<String, Object> details =  new HashMap<>();
+    private Map<String, Object> details = new HashMap<>();
 
     public BasicExcepion(IRequest<? extends AbsRequest> request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
@@ -61,6 +61,7 @@ public abstract class BasicExcepion extends Exception implements Serializable, I
     public void setStatusCode(Integer statusCode) {
         this.statusCode = statusCode;
     }
+
     @Override
     public void printStackTrace() {
         if (this.details != null) {
@@ -75,4 +76,6 @@ public abstract class BasicExcepion extends Exception implements Serializable, I
     protected void addDetail(String key, Object value) {
         this.details.put(key, value);
     }
+
+    public abstract <T extends IBasicException> T details(String key,Object value);
 }

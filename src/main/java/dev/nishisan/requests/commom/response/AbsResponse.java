@@ -36,6 +36,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
 
     private String sourceRequestId;
     private String responseId;
+    private String traceId;
     private T payload;
     private int statusCode;
     private Map<String, String> responseHeaders = new ConcurrentHashMap<>();
@@ -166,4 +167,11 @@ public abstract class AbsResponse<T> implements IResponse<T> {
         return this.responseHeaders;
     }
 
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
 }
