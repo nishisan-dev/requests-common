@@ -17,9 +17,13 @@
  */
 package dev.nishisan.requests.commom.response;
 
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * Abstract class representing a generic response.
@@ -35,6 +39,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
     private T payload;
     private int statusCode;
     private Map<String, String> responseHeaders = new ConcurrentHashMap<>();
+    private long size;
 
     /**
      * Default constructor that generates a unique response ID.
@@ -50,7 +55,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
      * @param payload the payload of the response
      */
     public AbsResponse(String sourceRequestId, T payload) {
-        this();
+        this(payload);
         this.sourceRequestId = sourceRequestId;
         this.payload = payload;
     }
@@ -63,6 +68,14 @@ public abstract class AbsResponse<T> implements IResponse<T> {
     public AbsResponse(T payload) {
         this();
         this.payload = payload;
+        if(this.payload instanceof List list){
+            this.size = list.size();
+        }else if (this.payload instanceof Map map){
+            this.size = map.size();
+        }else if (this.payload instanceof Page p){
+                this.size = p.getSize();
+        }
+
     }
 
     /**
