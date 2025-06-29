@@ -35,6 +35,8 @@ jobs:
 
     - name: Test VARS
       run: echo GITHUB_WORKSPACE [$GITHUB_WORKSPACE], GITHUB_TOKEN [$GITHUB_TOKEN]
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
 
     - name: Publish to GitHub Packages
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml -X
