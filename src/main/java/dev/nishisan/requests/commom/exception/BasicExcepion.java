@@ -4,12 +4,13 @@ import dev.nishisan.requests.commom.request.AbsRequest;
 import dev.nishisan.requests.commom.request.IRequest;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BasicExcepion extends Exception implements Serializable, IBasicException {
     protected IRequest<? extends AbsRequest> request;
     protected Integer statusCode = 500;
-    private Map<String, Object> details;
+    private Map<String, Object> details =  new HashMap<>();
 
     public BasicExcepion(IRequest<? extends AbsRequest> request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
@@ -69,5 +70,9 @@ public abstract class BasicExcepion extends Exception implements Serializable, I
 
         }
         super.printStackTrace();
+    }
+
+    protected void addDetail(String key, Object value) {
+        this.details.put(key, value);
     }
 }
