@@ -8,49 +8,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BasicExcepion extends Exception implements Serializable, IBasicException {
-    protected IRequest<? extends AbsRequest> request;
+    protected IRequest<?> request;
     protected Integer statusCode = 500;
     private Map<String, Object> details = new HashMap<>();
 
-    public BasicExcepion(IRequest<? extends AbsRequest> request, Integer statusCode, Map<String, Object> details) {
+    public BasicExcepion(IRequest request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(String message, IRequest<? extends AbsRequest> request, Integer statusCode, Map<String, Object> details) {
+    public BasicExcepion(String message, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(String message, Throwable cause, IRequest<? extends AbsRequest> request, Integer statusCode, Map<String, Object> details) {
+    public BasicExcepion(String message, Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message, cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(Throwable cause, IRequest<? extends AbsRequest> request, Integer statusCode, Map<String, Object> details) {
+    public BasicExcepion(Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<? extends AbsRequest> request, Integer statusCode, Map<String, Object> details) {
+    public BasicExcepion(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public IRequest<? extends AbsRequest> getRequest() {
+    public IRequest<?> getRequest() {
         return request;
     }
 
-    public void setRequest(IRequest<? extends AbsRequest> request) {
+    public void setRequest(IRequest<?> request) {
         this.request = request;
     }
 
