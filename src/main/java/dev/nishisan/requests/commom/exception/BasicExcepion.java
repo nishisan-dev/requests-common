@@ -30,7 +30,12 @@ public abstract class BasicExcepion extends Exception implements Serializable, I
         super(message,th);
     }
 
-    public BasicExcepion(IRequest request, Integer statusCode, Map<String, Object> details) {
+    public BasicExcepion(String message,IRequest<?> request){
+        super(message);
+        this.request = request;
+    }
+
+    public BasicExcepion(IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
@@ -96,4 +101,8 @@ public abstract class BasicExcepion extends Exception implements Serializable, I
     }
 
     public abstract <T extends IBasicException> T details(String key,Object value);
+
+    public Map<String, Object> details(){
+        return  this.details;
+    }
 }
