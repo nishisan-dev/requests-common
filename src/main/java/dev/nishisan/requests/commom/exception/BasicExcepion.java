@@ -1,5 +1,6 @@
 package dev.nishisan.requests.commom.exception;
 
+import dev.nishisan.requests.commom.annotations.RequiredField;
 import dev.nishisan.requests.commom.request.AbsRequest;
 import dev.nishisan.requests.commom.request.IRequest;
 

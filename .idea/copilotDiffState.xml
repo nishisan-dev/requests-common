@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/src/main/java/dev/nishisan/requests/commom/annotations/RequiredField.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/main/java/dev/nishisan/requests/commom/annotations/RequiredField.java" />
+              <option name="originalContent" value="package dev.nishisan.requests.commom.annotations;&#10;&#10;import java.lang.annotation.Retention;&#10;import java.lang.annotation.RetentionPolicy;&#10;&#10;@Retention(RetentionPolicy.RUNTIME)&#10;public @interface RequiredField {&#10;&#10;    AllowedValue[] allowedValues() default {};&#10;&#10;    @interface AllowedValue {&#10;        String type();&#10;        String value();&#10;    }&#10;}&#10;" />
+              <option name="updatedContent" value="package dev.nishisan.requests.commom.annotations;&#10;&#10;import java.lang.annotation.Retention;&#10;import java.lang.annotation.RetentionPolicy;&#10;&#10;@Retention(RetentionPolicy.RUNTIME)&#10;public @interface RequiredField {&#10;&#10;    AllowedValue[] allowedValues() default {};&#10;&#10;    @interface AllowedValue {&#10;        String stringValue() default &quot;&quot;;&#10;        int intValue() default 0;&#10;        long longValue() default 0L;&#10;        double doubleValue() default 0.0;&#10;        float floatValue() default 0.0f;&#10;        boolean booleanValue() default false;&#10;        char charValue() default '\u0000';&#10;        byte byteValue() default 0;&#10;        short shortValue() default 0;&#10;    }&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

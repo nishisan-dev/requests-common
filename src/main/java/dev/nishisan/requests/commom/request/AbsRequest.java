@@ -20,6 +20,7 @@ package dev.nishisan.requests.commom.request;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import dev.nishisan.requests.commom.annotations.RequiredField;
 import dev.nishisan.requests.commom.uc.IUserCredential;
 
 /**
