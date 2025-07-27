@@ -13,6 +13,23 @@ public abstract class BasicExcepion extends Exception implements Serializable, I
     protected Integer statusCode = 500;
     private Map<String, Object> details = new HashMap<>();
 
+
+    public BasicExcepion(){
+
+    }
+
+    public BasicExcepion(IRequest<?> request) {
+        this.request = request;
+    }
+
+    public BasicExcepion(String message){
+        super(message);
+    }
+
+    public BasicExcepion(String message,Throwable th){
+        super(message,th);
+    }
+
     public BasicExcepion(IRequest request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
         this.statusCode = statusCode;
