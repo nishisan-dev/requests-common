@@ -38,6 +38,19 @@ public abstract class AbsRequest<T> implements IRequest<T> {
     private IUserCredential userCredential;
     private Map<String, String> requestHeaders = new ConcurrentHashMap<>();
 
+    public AbsRequest() {
+
+    }
+
+    public AbsRequest(T payload) {
+        this.payload = payload;
+    }
+
+    public AbsRequest(String requestId, T payload) {
+        this.requestId = requestId;
+        this.payload = payload;
+    }
+
     /**
      * {@inheritDoc}
      */

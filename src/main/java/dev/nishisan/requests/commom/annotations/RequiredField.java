@@ -9,14 +9,7 @@ public @interface RequiredField {
     AllowedValue[] allowedValues() default {};
 
     @interface AllowedValue {
-        String stringValue() default "";
-        int intValue() default 0;
-        long longValue() default 0L;
-        double doubleValue() default 0.0;
-        float floatValue() default 0.0f;
-        boolean booleanValue() default false;
-        char charValue() default '\u0000';
-        byte byteValue() default 0;
-        short shortValue() default 0;
+        String type();
+        String value();
     }
 }

@@ -1,68 +1,66 @@
 package dev.nishisan.requests.commom.exception;
 
-import dev.nishisan.requests.commom.annotations.RequiredField;
-import dev.nishisan.requests.commom.request.AbsRequest;
 import dev.nishisan.requests.commom.request.IRequest;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BasicExcepion extends Exception implements Serializable, IBasicException {
+public abstract class BasicException extends Exception implements Serializable, IBasicException {
     protected IRequest<?> request;
     protected Integer statusCode = 500;
     private Map<String, Object> details = new HashMap<>();
 
 
-    public BasicExcepion(){
+    public BasicException(){
 
     }
 
-    public BasicExcepion(IRequest<?> request) {
+    public BasicException(IRequest<?> request) {
         this.request = request;
     }
 
-    public BasicExcepion(String message){
+    public BasicException(String message){
         super(message);
     }
 
-    public BasicExcepion(String message,Throwable th){
+    public BasicException(String message, Throwable th){
         super(message,th);
     }
 
-    public BasicExcepion(String message,IRequest<?> request){
+    public BasicException(String message, IRequest<?> request){
         super(message);
         this.request = request;
     }
 
-    public BasicExcepion(IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicException(IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(String message, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicException(String message, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(String message, Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicException(String message, Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message, cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicException(Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicExcepion(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.request = request;
         this.statusCode = statusCode;
