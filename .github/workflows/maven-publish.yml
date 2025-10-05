@@ -52,3 +52,9 @@ jobs:
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git commit -am "ci: bump version to ${{ env.NEW_VERSION }}"
         git push
+
+    - name: Create and Push Git Tag
+      if: github.ref == 'refs/heads/main'
+      run: |
+        git tag "v${{ env.NEW_VERSION }}"
+        git push origin "v${{ env.NEW_VERSION }}"
