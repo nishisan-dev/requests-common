@@ -15,30 +15,43 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.uc;
+package dev.nishisan.requests.common.uc;
 
 /**
- * Class representing generic user credentials.
- * 
- * This class extends {@link AbsUserCredential} with a payload of type {@link Object}.
+ * Interface representing user credentials.
+ *
+ * @param <T> the type of the user data
  * 
  * @author Lucas Nishimura
  */
-public class GenericUserCredential extends AbsUserCredential<Object> {
+public interface IUserCredential<T> {
 
     /**
-     * Default constructor.
-     */
-    public GenericUserCredential() {
-    }
-
-    /**
-     * Constructor with user ID.
+     * Sets the user ID.
      *
-     * @param userId the user ID
+     * @param id the new user ID
      */
-    public GenericUserCredential(String userId) {
-        super(userId);
-    }
+    public void setUserId(String id);
+
+    /**
+     * Gets the user ID.
+     *
+     * @return the user ID
+     */
+    public String getUserId();
+
+    /**
+     * Sets the user data.
+     *
+     * @param userData the new user data
+     */
+    public void setUserData(T userData);
+
+    /**
+     * Gets the user data.
+     *
+     * @return the user data
+     */
+    public T getUserData();
 
 }

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.response;
+package dev.nishisan.requests.common.response;
 
 import org.springframework.data.domain.Page;
 
@@ -41,7 +41,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
     private int statusCode;
     private Map<String, String> responseHeaders = new ConcurrentHashMap<>();
     private long size;
-
+    private long totalPages;
     /**
      * Default constructor that generates a unique response ID.
      */
@@ -75,6 +75,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
             this.size = map.size();
         }else if (this.payload instanceof Page p){
                 this.size = p.getSize();
+                this.totalPages = p.getTotalPages();
         }
 
     }
@@ -173,5 +174,13 @@ public abstract class AbsResponse<T> implements IResponse<T> {
 
     public void setTraceId(String traceId) {
         this.traceId = traceId;
+    }
+
+    public long getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(long totalPages) {
+        this.totalPages = totalPages;
     }
 }

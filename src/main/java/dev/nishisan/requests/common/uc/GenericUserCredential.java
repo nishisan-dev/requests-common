@@ -15,24 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.uc;
+package dev.nishisan.requests.common.uc;
 
 /**
- * Abstract class representing user credentials.
- *
- * @param <T> the type of the user data
+ * Class representing generic user credentials.
+ * 
+ * This class extends {@link AbsUserCredential} with a payload of type {@link Object}.
  * 
  * @author Lucas Nishimura
  */
-public abstract class AbsUserCredential<T> implements IUserCredential<T> {
-
-    private String userId;
-    private T userData;
+public class GenericUserCredential extends AbsUserCredential<Object> {
 
     /**
      * Default constructor.
      */
-    public AbsUserCredential() {
+    public GenericUserCredential() {
     }
 
     /**
@@ -40,41 +37,8 @@ public abstract class AbsUserCredential<T> implements IUserCredential<T> {
      *
      * @param userId the user ID
      */
-    public AbsUserCredential(String userId) {
-        this();
-        this.userId = userId;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setUserId(String id) {
-        this.userId = id;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getUserId() {
-        return this.userId;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setUserData(T userData) {
-        this.userData = userData;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public T getUserData() {
-        return this.userData;
+    public GenericUserCredential(String userId) {
+        super(userId);
     }
 
 }

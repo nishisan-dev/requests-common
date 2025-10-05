@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package dev.nishisan.requests.commom.request;
+package dev.nishisan.requests.common.request;
 
-import dev.nishisan.requests.commom.dto.PageableDTO;
+import dev.nishisan.requests.common.dto.PageableDTO;
 
 /**
  *

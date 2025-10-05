@@ -30,63 +30,16 @@ jobs:
         server-id: github                      # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
+    - name: Bump patch version on main
+      if: github.ref == 'refs/heads/main'
+      run: |
+        mvn -q build-helper:parse-version \
+          versions:set -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion} -DgenerateBackupPoms=false
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-
-    # NEW: Extract Maven coordinates (groupId, artifactId, version)
-    - name: Extract Maven coordinates
-      run: |
-        echo "GROUP_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.groupId)" >> $GITHUB_ENV
-        echo "ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)" >> $GITHUB_ENV
-        echo "VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)" >> $GITHUB_ENV
-
-    # NEW: Delete existing package version if it exists (requires delete:packages; falls back to GITHUB_TOKEN)
-    - name: Delete existing GitHub Packages version (if exists)
-      env:
-        OWNER: ${{ github.repository_owner }}
-        GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-        GITHUB_TOKEN: ${{ github.token }}
-      run: |
-        set -euo pipefail
-        TOKEN="${GH_PACKAGES_TOKEN:-${GITHUB_TOKEN}}"
-        if [ -z "${TOKEN}" ]; then
-          echo "No token available; skipping deletion."
-          exit 0
-        fi
-        PACKAGE_NAME_ENC="$(echo "${GROUP_ID}/${ARTIFACT_ID}" | sed 's/\//%2F/g')"
-
-        for BASE in orgs users; do
-          LIST_URL="https://api.github.com/${BASE}/${OWNER}/packages/maven/${PACKAGE_NAME_ENC}/versions?per_page=100"
-          echo "Checking ${LIST_URL}"
-          RESP=$(curl -sS -H "Authorization: Bearer ${TOKEN}" \
-                        -H "Accept: application/vnd.github+json" \
-                        -H "X-GitHub-Api-Version: 2022-11-28" \
-                        "${LIST_URL}" || true)
-          if echo "${RESP}" | jq -e 'type=="array"' >/dev/null 2>&1; then
-            ID=$(echo "${RESP}" | jq -r --arg ver "${VERSION}" '.[] | select(.name==$ver) | .id' | head -n1)
-            if [ -n "${ID}" ] && [ "${ID}" != "null" ]; then
-              DEL_URL="https://api.github.com/${BASE}/${OWNER}/packages/maven/${PACKAGE_NAME_ENC}/versions/${ID}"
-              echo "Deleting existing package version ${VERSION} (id=${ID})..."
-              HTTP_CODE=$(curl -sS -o /dev/null -w "%{http_code}" -X DELETE \
-                               -H "Authorization: Bearer ${TOKEN}" \
-                               -H "Accept: application/vnd.github+json" \
-                               -H "X-GitHub-Api-Version: 2022-11-28" \
-                               "${DEL_URL}")
-              if [ "${HTTP_CODE}" = "204" ]; then
-                echo "Deleted. Waiting a moment..."
-                sleep 3
-              else
-                echo "Failed to delete (HTTP ${HTTP_CODE}). Proceeding anyway."
-              fi
-            else
-              echo "No existing version ${VERSION} found."
-            fi
-            break
-          fi
-        done
 
     - name: Publish to GitHub Packages
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
-        GITHUB_TOKEN: ${{ github.token }}
-        GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_TOKEN:    ${{ github.token }}
+        GITHUB_USERNAME: ${{ github.token }}
