@@ -183,4 +183,16 @@ public abstract class AbsResponse<T> implements IResponse<T> {
     public void setTotalPages(long totalPages) {
         this.totalPages = totalPages;
     }
+
+    public void setResponseHeaders(Map<String, String> responseHeaders) {
+        this.responseHeaders = responseHeaders;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
 }
