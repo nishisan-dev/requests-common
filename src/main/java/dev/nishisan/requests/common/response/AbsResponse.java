@@ -185,7 +185,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
     }
 
     public void setResponseHeaders(Map<String, String> responseHeaders) {
-        this.responseHeaders = responseHeaders;
+        this.responseHeaders = responseHeaders == null ? null : new java.util.HashMap<>(responseHeaders);
     }
 
     public long getSize() {
