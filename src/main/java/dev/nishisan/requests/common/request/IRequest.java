@@ -15,11 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.request;
+package dev.nishisan.requests.common.request;
 
 import java.util.Map;
 
-import dev.nishisan.requests.commom.uc.IUserCredential;
+import dev.nishisan.requests.common.uc.IUserCredential;
 
 /**
  * Interface representing a generic request.

@@ -15,43 +15,66 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.uc;
+package dev.nishisan.requests.common.uc;
 
 /**
- * Interface representing user credentials.
+ * Abstract class representing user credentials.
  *
  * @param <T> the type of the user data
  * 
  * @author Lucas Nishimura
  */
-public interface IUserCredential<T> {
+public abstract class AbsUserCredential<T> implements IUserCredential<T> {
+
+    private String userId;
+    private T userData;
 
     /**
-     * Sets the user ID.
-     *
-     * @param id the new user ID
+     * Default constructor.
      */
-    public void setUserId(String id);
+    public AbsUserCredential() {
+    }
 
     /**
-     * Gets the user ID.
+     * Constructor with user ID.
      *
-     * @return the user ID
+     * @param userId the user ID
      */
-    public String getUserId();
+    public AbsUserCredential(String userId) {
+        this();
+        this.userId = userId;
+    }
 
     /**
-     * Sets the user data.
-     *
-     * @param userData the new user data
+     * {@inheritDoc}
      */
-    public void setUserData(T userData);
+    @Override
+    public void setUserId(String id) {
+        this.userId = id;
+    }
 
     /**
-     * Gets the user data.
-     *
-     * @return the user data
+     * {@inheritDoc}
      */
-    public T getUserData();
+    @Override
+    public String getUserId() {
+        return this.userId;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setUserData(T userData) {
+        this.userData = userData;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public T getUserData() {
+        return this.userData;
+    }
 
 }

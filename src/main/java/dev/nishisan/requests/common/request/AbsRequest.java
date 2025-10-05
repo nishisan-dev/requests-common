@@ -15,13 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package dev.nishisan.requests.commom.request;
+package dev.nishisan.requests.common.request;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import dev.nishisan.requests.commom.annotations.RequiredField;
-import dev.nishisan.requests.commom.uc.IUserCredential;
+import dev.nishisan.requests.common.uc.IUserCredential;
 
 /**
  * Abstract class representing a generic request.

@@ -1,6 +1,6 @@
-package dev.nishisan.requests.commom.exception;
+package dev.nishisan.requests.common.exception;
 
-import dev.nishisan.requests.commom.request.IRequest;
+import dev.nishisan.requests.common.request.IRequest;
 
 import java.io.Serializable;
 import java.util.HashMap;

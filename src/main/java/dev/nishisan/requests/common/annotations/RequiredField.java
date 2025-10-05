@@ -1,4 +1,4 @@
-package dev.nishisan.requests.commom.annotations;
+package dev.nishisan.requests.common.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
