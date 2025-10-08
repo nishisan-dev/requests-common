@@ -34,6 +34,39 @@ Para adicionar o **Requests-Common** ao seu projeto Maven, adicione a seguinte d
 
 ---
 
+## 🌷 Auto-configuração com Spring Boot
+
+Esta biblioteca inclui um recurso de auto-configuração para Spring Boot que simplifica sua integração em aplicações Spring. Quando ativado, ele registra automaticamente um `ResponseStatusAdvice`, que permite que o código de status HTTP de uma resposta seja definido dinamicamente a partir de objetos `AbsResponse` ou `BasicException`.
+
+### Ativando a Auto-configuração
+
+Para ativar esse recurso, adicione a seguinte propriedade ao seu `application.properties` ou `application.yml`:
+
+**application.properties:**
+```properties
+nishi.requests.common.enabled=true
+```
+
+**application.yml:**
+```yml
+nishi:
+  requests:
+    common:
+      enabled: true
+```
+
+Com essa configuração, qualquer método de controller que retorne um `IResponse` terá seu código de status HTTP ajustado automaticamente com base no valor definido em `response.setStatusCode()`.
+
+### Como Funciona
+
+O mecanismo de auto-configuração baseia-se em recursos padrão do Spring Boot:
+
+1.  **`AutoConfiguration.imports`**: O arquivo `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` registra a classe `NishiRequestsCommonAutoConfiguration` no Spring Boot, permitindo que ela seja processada como uma classe de auto-configuração.
+2.  **Configuração Condicional**: A classe `NishiRequestsCommonAutoConfiguration` é anotada com `@ConditionalOnProperty`, que ativa a configuração somente quando a propriedade `nishi.requests.common.enabled` é definida como `true`.
+3.  **Response Body Advice**: Quando ativada, a configuração registra um bean `ResponseStatusAdvice`. Esse bean é um `@RestControllerAdvice` que implementa `ResponseBodyAdvice`. Ele intercepta a resposta antes de ser enviada ao cliente, verifica se o corpo é uma instância de `AbsResponse` ou `BasicException` e utiliza o valor de `getStatusCode()` do objeto para definir o status HTTP final da resposta.
+
+---
+
 ## 🚀 Exemplos de Uso
 
 ### 1. Requisição e Resposta Básica

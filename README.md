@@ -34,6 +34,39 @@ To add **Requests-Common** to your Maven project, add the following dependency t
 
 ---
 
+## 🌷 Spring Boot Auto-configuration
+
+This library includes a Spring Boot auto-configuration feature that simplifies its integration into Spring applications. When enabled, it automatically registers a `ResponseStatusAdvice`, which allows the HTTP status code of a response to be dynamically set from `AbsResponse` or `BasicException` objects.
+
+### Enabling Auto-configuration
+
+To enable this feature, add the following property to your `application.properties` or `application.yml`:
+
+**application.properties:**
+```properties
+nishi.requests.common.enabled=true
+```
+
+**application.yml:**
+```yml
+nishi:
+  requests:
+    common:
+      enabled: true
+```
+
+With this configuration, any controller method that returns an `IResponse` will have its HTTP status code automatically adjusted based on the value set in `response.setStatusCode()`.
+
+### How It Works
+
+The auto-configuration mechanism relies on standard Spring Boot features:
+
+1.  **`AutoConfiguration.imports`**: The file `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` registers `NishiRequestsCommonAutoConfiguration` with Spring Boot, allowing it to be processed as an auto-configuration class.
+2.  **Conditional Configuration**: The `NishiRequestsCommonAutoConfiguration` class is annotated with `@ConditionalOnProperty`, which activates the configuration only when `nishi.requests.common.enabled` is set to `true`.
+3.  **Response Body Advice**: When activated, the configuration registers a `ResponseStatusAdvice` bean. This bean is a `@RestControllerAdvice` that implements `ResponseBodyAdvice`. It intercepts the response before it is sent to the client, checks if the body is an instance of `AbsResponse` or `BasicException`, and uses the `getStatusCode()` value from the object to set the final HTTP status of the response.
+
+---
+
 ## 🚀 Usage Examples
 
 ### 1. Basic Request and Response
