@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Lucas Nishimura 
+ * Copyright (C) 2025 Lucas Nishimura
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +17,7 @@
  */
 package dev.nishisan.requests.common.response;
 
+
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -29,7 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * Abstract class representing a generic response.
  *
  * @param <T> the type of the payload
- * 
  * @author Lucas Nishimura
  */
 public abstract class AbsResponse<T> implements IResponse<T> {
@@ -42,6 +42,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
     private Map<String, String> responseHeaders = new ConcurrentHashMap<>();
     private long size;
     private long totalPages;
+
     /**
      * Default constructor that generates a unique response ID.
      */
@@ -53,7 +54,7 @@ public abstract class AbsResponse<T> implements IResponse<T> {
      * Constructor with source request ID and payload.
      *
      * @param sourceRequestId the ID of the source request
-     * @param payload the payload of the response
+     * @param payload         the payload of the response
      */
     public AbsResponse(String sourceRequestId, T payload) {
         this(payload);
@@ -69,13 +70,13 @@ public abstract class AbsResponse<T> implements IResponse<T> {
     public AbsResponse(T payload) {
         this();
         this.payload = payload;
-        if(this.payload instanceof List list){
+        if (this.payload instanceof List list) {
             this.size = list.size();
-        }else if (this.payload instanceof Map map){
+        } else if (this.payload instanceof Map map) {
             this.size = map.size();
-        }else if (this.payload instanceof Page p){
-                this.size = p.getSize();
-                this.totalPages = p.getTotalPages();
+        } else if (this.payload instanceof Page p) {
+            this.size = p.getSize();
+            this.totalPages = p.getTotalPages();
         }
 
     }
