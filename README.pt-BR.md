@@ -2,192 +2,282 @@
 
 # 📨 Requests-Common
 
+**Requests-Common** é uma biblioteca Java leve que oferece uma linguagem compartilhada para lidar com requisições de entrada e respostas de saída. Ela fornece envelopes tipados, ajudantes de paginação, manipulação de credenciais, contratos de erro e auto-configuração opcional para Spring Boot, garantindo que cada microsserviço da sua arquitetura troque dados de maneira previsível.
 
-
-**Requests-Common** é uma biblioteca Java projetada para padronizar o ciclo de requisição e resposta em aplicações modernas, especialmente aquelas construídas em uma arquitetura de microsserviços. Ela fornece um conjunto de interfaces e classes abstratas para criar uma estrutura comum e previsível para os dados que fluem através de seus serviços.
-
-O objetivo principal é reduzir o código repetitivo e impor um padrão consistente para lidar com requisições, respostas, credenciais de usuário, paginação e erros.
+## 📚 Sumário
+- [Por que usar Requests-Common?](#-por-que-usar-requests-common)
+- [Instalação](#-instalação)
+- [Guia Rápido](#-guia-rápido)
+- [Blocos de Construção](#-blocos-de-construção)
+  - [Requisições](#requisições)
+  - [Respostas](#respostas)
+  - [Credenciais de Usuário](#credenciais-de-usuário)
+  - [Paginação](#paginação)
+  - [Validação](#validação)
+  - [Tratamento de Erros](#tratamento-de-erros)
+- [Auto-configuração Spring Boot](#-auto-configuração-spring-boot)
+- [Exemplo REST de ponta a ponta](#-exemplo-rest-de-ponta-a-ponta)
+- [Compilando o projeto](#-compilando-o-projeto)
+- [Licença](#-licença)
+- [Contato](#-contato)
 
 ---
 
-## ✨ Recursos Principais
+## 🤔 Por que usar Requests-Common?
 
-*   **Envelopes de Requisição/Resposta:** Wrappers genéricos (`IRequest`, `IResponse`) para seus DTOs, enriquecidos com metadados como `requestId` e `traceId`.
-*   **Manipulação de Credenciais de Usuário:** Uma forma padronizada de passar informações do usuário (`IUserCredential`) a cada requisição.
-*   **Paginação Simplificada:** Classes abstratas (`AbsPageableRequest`, `PageableDTO`) para implementar facilmente consultas paginadas.
-*   **Respostas de Erro Padronizadas:** Um DTO (`ApiErrorDTO`) para enviar mensagens de erro consistentes e detalhadas.
-*   **Validação de Campos:** Uma anotação `@RequiredField` para marcar campos como obrigatórios.
+Quando cada serviço em um sistema distribuído cria seus próprios envelopes de requisição e resposta, é comum repetir funcionalidades (IDs, cabeçalhos, metadados de paginação, payloads de erro etc.). O Requests-Common centraliza esses padrões para que você possa:
+
+* compartilhar contratos de DTO entre serviços JVM sem duplicação;
+* enriquecer respostas automaticamente com metadados como `responseId`, tamanho do payload e total de páginas;【F:src/main/java/dev/nishisan/requests/common/response/AbsResponse.java†L34-L114】
+* anexar credenciais, IDs de rastreio e cabeçalhos personalizados a cada requisição de forma consistente;【F:src/main/java/dev/nishisan/requests/common/request/AbsRequest.java†L30-L97】
+* expor objetos de erro e códigos HTTP uniformes em suas APIs.【F:src/main/java/dev/nishisan/requests/common/dto/ApiErrorDTO.java†L23-L78】【F:src/main/java/dev/nishisan/requests/common/exception/BasicException.java†L10-L90】
 
 ---
 
-## 🛠️ Instalação
+## 📦 Instalação
 
-Para adicionar o **Requests-Common** ao seu projeto Maven, adicione a seguinte dependência ao seu `pom.xml`. Certifique-se de usar a versão mais recente disponível.
+Adicione a dependência ao seu build. Substitua `1.2.12` pela versão mais recente quando necessário.
+
+<details>
+<summary><strong>Maven</strong></summary>
 
 ```xml
 <dependency>
     <groupId>dev.nishisan</groupId>
     <artifactId>requests-common</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.12</version>
 </dependency>
 ```
 
----
+</details>
 
-## 🌷 Auto-configuração com Spring Boot
+<details>
+<summary><strong>Gradle (Kotlin DSL)</strong></summary>
 
-Esta biblioteca inclui um recurso de auto-configuração para Spring Boot que simplifica sua integração em aplicações Spring. Quando ativado, ele registra automaticamente um `ResponseStatusAdvice`, que permite que o código de status HTTP de uma resposta seja definido dinamicamente a partir de objetos `AbsResponse` ou `BasicException`.
-
-### Ativando a Auto-configuração
-
-Para ativar esse recurso, adicione a seguinte propriedade ao seu `application.properties` ou `application.yml`:
-
-**application.properties:**
-```properties
-nishi.requests.common.enabled=true
-```
-
-**application.yml:**
-```yml
-nishi:
-  requests:
-    common:
-      enabled: true
-```
-
-Com essa configuração, qualquer método de controller que retorne um `IResponse` terá seu código de status HTTP ajustado automaticamente com base no valor definido em `response.setStatusCode()`.
-
-### Como Funciona
-
-O mecanismo de auto-configuração baseia-se em recursos padrão do Spring Boot:
-
-1.  **`AutoConfiguration.imports`**: O arquivo `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` registra a classe `NishiRequestsCommonAutoConfiguration` no Spring Boot, permitindo que ela seja processada como uma classe de auto-configuração.
-2.  **Configuração Condicional**: A classe `NishiRequestsCommonAutoConfiguration` é anotada com `@ConditionalOnProperty`, que ativa a configuração somente quando a propriedade `nishi.requests.common.enabled` é definida como `true`.
-3.  **Response Body Advice**: Quando ativada, a configuração registra um bean `ResponseStatusAdvice`. Esse bean é um `@RestControllerAdvice` que implementa `ResponseBodyAdvice`. Ele intercepta a resposta antes de ser enviada ao cliente, verifica se o corpo é uma instância de `AbsResponse` ou `BasicException` e utiliza o valor de `getStatusCode()` do objeto para definir o status HTTP final da resposta.
-
----
-
-## 🚀 Exemplos de Uso
-
-### 1. Requisição e Resposta Básica
-
-Primeiro, defina a estrutura de dados para o seu domínio.
-
-```java
-// ProdutoDTO.java
-public class ProdutoDTO {
-    private String sku;
-    private String nome;
-    private double preco;
-
-    // Getters e Setters
+```kotlin
+dependencies {
+    implementation("dev.nishisan:requests-common:1.2.12")
 }
 ```
 
-Em seguida, crie classes de Requisição e Resposta específicas estendendo as classes abstratas.
+</details>
+
+<details>
+<summary><strong>Gradle (Groovy DSL)</strong></summary>
+
+```groovy
+dependencies {
+    implementation 'dev.nishisan:requests-common:1.2.12'
+}
+```
+
+</details>
+
+---
+
+## ⚡ Guia Rápido
+
+O trecho a seguir demonstra o fluxo típico de modelagem para um endpoint de criação de produto.
 
 ```java
-// CriarProdutoRequest.java
+// 1. Defina o payload
+public record ProdutoDTO(String sku, String nome, double preco) {}
+
+// 2. Encapsule o payload em uma requisição
 public class CriarProdutoRequest extends AbsRequest<ProdutoDTO> {
     public CriarProdutoRequest(ProdutoDTO payload) {
         super(payload);
     }
 }
 
-// ProdutoResponse.java
+// 3. Encapsule o payload em uma resposta
 public class ProdutoResponse extends AbsResponse<ProdutoDTO> {
     public ProdutoResponse(ProdutoDTO payload) {
         super(payload);
+        setStatusCode(201);
+    }
+}
+
+// 4. Utilize os envelopes dentro do serviço
+@Service
+public class ProdutoService {
+    public ProdutoResponse criar(CriarProdutoRequest request) {
+        var credenciais = request.getUserCredential();
+        var traceId = request.getTraceId();
+
+        ProdutoDTO salvo = salvarProduto(request.getPayload());
+
+        ProdutoResponse response = new ProdutoResponse(salvo);
+        response.setSourceRequestId(request.getRequestId());
+        response.setTraceId(traceId);
+        response.addResponseHeader("X-Correlation-Id", traceId);
+        return response;
     }
 }
 ```
 
-Agora você pode usar essas classes em seus serviços ou controladores.
-
-```java
-// ProdutoService.java
-public ProdutoResponse criarProduto(CriarProdutoRequest request) {
-    ProdutoDTO dadosProduto = request.getPayload();
-    
-    // ... lógica para salvar o produto ...
-
-    // Cria e retorna uma resposta padronizada
-    ProdutoResponse response = new ProdutoResponse(dadosProduto);
-    response.setStatusCode(201);
-    response.setSourceRequestId(request.getRequestId());
-    return response;
-}
-```
-
-### 2. Requisição Paginada
-
-Para consultar uma lista de itens com paginação, use `AbsPageableRequest`.
-
-```java
-// ListarProdutosRequest.java
-public class ListarProdutosRequest extends AbsPageableRequest {
-    public ListarProdutosRequest(int page, int size) {
-        super(page, size);
-    }
-}
-```
-
-Seu serviço pode então usar os dados de paginação do payload.
-
-```java
-// ProdutoService.java
-public IResponse<Page<ProdutoDTO>> listarProdutos(ListarProdutosRequest request) {
-    PageableDTO infoPagina = request.getPayload();
-    
-    // Usa o Pageable do Spring Data
-    Pageable pageable = PageRequest.of(
-        infoPagina.getPage(),
-        infoPagina.getSize(),
-        Sort.by(infoPagina.getDirection(), infoPagina.getSort())
-    );
-
-    Page<ProdutoDTO> paginaProdutos = produtoRepository.findAll(pageable);
-
-    // O construtor de AbsResponse lida automaticamente com objetos Page
-    return new AbsResponse<Page<ProdutoDTO>>(paginaProdutos) {};
-}
-```
-
-### 3. Manipulando Credenciais de Usuário
-
-Anexe as credenciais do usuário a uma requisição para identificar o chamador.
-
-```java
-// Cria uma requisição e define o usuário
-var request = new CriarProdutoRequest(new ProdutoDTO());
-request.setRequestId(UUID.randomUUID().toString());
-
-// GenericUserCredential pode conter um ID de usuário ou dados mais complexos
-IUserCredential user = new GenericUserCredential("user-123");
-request.setUserCredential(user);
-
-// Passa a requisição para o serviço
-produtoService.criarProduto(request);
-```
+> 💡 `AbsResponse` gera automaticamente um `responseId` e calcula metadados do payload, como tamanho de coleções ou total de páginas para objetos `Page<?>`.【F:src/main/java/dev/nishisan/requests/common/response/AbsResponse.java†L42-L101】
 
 ---
 
-## 📦 Construindo a Partir do Código-Fonte
+## 🧱 Blocos de Construção
 
-Para construir o projeto localmente, clone o repositório e execute o seguinte comando Maven:
+### Requisições
+
+* `AbsRequest<T>` implementa `IRequest<T>` e oferece campos para `requestId`, `traceId`, payload, cabeçalhos arbitrários e credencial de usuário.【F:src/main/java/dev/nishisan/requests/common/request/AbsRequest.java†L30-L97】
+* Use `setRequestId`, `setTraceId` e `addRequestHeader` para encaminhar metadados; os cabeçalhos ficam guardados em um `ConcurrentHashMap`, seguro para múltiplas threads.【F:src/main/java/dev/nishisan/requests/common/request/AbsRequest.java†L30-L79】
+
+### Respostas
+
+* `AbsResponse<T>` implementa `IResponse<T>` e é responsável por:
+  * gerar um `responseId` único com `UUID.randomUUID()`;
+  * manter `sourceRequestId`, `traceId` e o código HTTP `statusCode`;
+  * calcular o tamanho do payload para `List`, `Map` e `Page`;
+  * armazenar cabeçalhos de resposta.【F:src/main/java/dev/nishisan/requests/common/response/AbsResponse.java†L34-L114】
+* O `setStatusCode` funciona em conjunto com o advice do Spring Boot, que propaga o código HTTP automaticamente.【F:src/main/java/dev/nishisan/requests/common/spring/servlet/ResponseStatusAdvice.java†L22-L72】
+
+### Credenciais de Usuário
+
+* Crie suas próprias credenciais estendendo `AbsUserCredential<T>` ou reutilize `GenericUserCredential` quando precisar apenas de um ID e dados opcionais.【F:src/main/java/dev/nishisan/requests/common/uc/AbsUserCredential.java†L22-L70】【F:src/main/java/dev/nishisan/requests/common/uc/GenericUserCredential.java†L17-L32】
+* Anexe-as à requisição via `request.setUserCredential(...)` e recupere depois para autorizar operações.【F:src/main/java/dev/nishisan/requests/common/request/AbsRequest.java†L32-L97】
+
+### Paginação
+
+* `AbsPageableRequest` monta um payload `PageableDTO` automaticamente, bastando estender a classe e informar os parâmetros de paginação.【F:src/main/java/dev/nishisan/requests/common/request/AbsPageableRequest.java†L24-L38】
+* `PageableDTO` armazena `page`, `size`, `sort`, `direction` e uma `query` opcional, cobrindo a maioria dos cenários de paginação.【F:src/main/java/dev/nishisan/requests/common/dto/PageableDTO.java†L23-L94】
+
+### Validação
+
+* Utilize `@RequiredField` para marcar campos obrigatórios. Valores permitidos podem ser restringidos com as declarações internas `@AllowedValue` (semelhante a um enum).【F:src/main/java/dev/nishisan/requests/common/annotations/RequiredField.java†L1-L15】
+* Como a anotação tem retenção em tempo de execução, é possível refletir sobre ela em camadas de serviço ou validação para aplicar regras personalizadas.【F:src/main/java/dev/nishisan/requests/common/annotations/RequiredField.java†L5-L15】
+
+### Tratamento de Erros
+
+* Estenda `BasicException` para representar erros de domínio. Ela guarda a requisição original, um código HTTP customizável e um `Map` de `details` que pode ser enriquecido fluentemente através do método `details(key, value)` sobrescrito na subclasse.【F:src/main/java/dev/nishisan/requests/common/exception/BasicException.java†L10-L90】
+* Padronize o corpo das respostas de erro com `ApiErrorDTO`, que carrega mensagem, nome da classe, status, detalhes e, opcionalmente, um snapshot da requisição.【F:src/main/java/dev/nishisan/requests/common/dto/ApiErrorDTO.java†L23-L78】
+
+---
+
+## 🌷 Auto-configuração Spring Boot
+
+O Requests-Common oferece uma auto-configuração que registra `ResponseStatusAdvice` em aplicações Spring Boot baseadas em servlet. Ao habilitá-la, qualquer método de controller que retorne um `AbsResponse` (ou lance um `BasicException`) terá o código HTTP sincronizado automaticamente com o valor definido no objeto.【F:src/main/java/dev/nishisan/requests/common/spring/servlet/ResponseStatusAdvice.java†L22-L72】【F:src/main/java/dev/nishisan/requests/common/spring/servlet/config/NishiRequestsCommonAutoConfiguration.java†L1-L22】
+
+Habilite com a propriedade abaixo:
+
+```properties
+# application.properties
+nishi.requests.common.enabled=true
+```
+
+Ou em YAML:
+
+```yaml
+# application.yml
+nishi:
+  requests:
+    common:
+      enabled: true
+```
+
+Como a configuração é condicional a um aplicativo web servlet, é seguro adicionar a dependência a bibliotecas ou serviços não web sem ativar o advice.【F:src/main/java/dev/nishisan/requests/common/spring/servlet/config/NishiRequestsCommonAutoConfiguration.java†L5-L22】
+
+---
+
+## 🔁 Exemplo REST de ponta a ponta
+
+O controller abaixo mostra como as peças se encaixam em um projeto Spring Boot:
+
+```java
+@RestController
+@RequestMapping("/produtos")
+public class ProdutoController {
+
+    private final ProdutoService service;
+
+    public ProdutoController(ProdutoService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    public ProdutoResponse criar(@RequestBody ProdutoDTO dto,
+                                 @RequestHeader(value = "X-Trace-Id", required = false) String traceId) {
+        CriarProdutoRequest request = new CriarProdutoRequest(dto);
+        request.setRequestId(UUID.randomUUID().toString());
+        request.setTraceId(traceId);
+        request.setUserCredential(new GenericUserCredential("user-123"));
+        request.addRequestHeader("X-Trace-Id", traceId);
+
+        return service.criar(request);
+    }
+
+    @GetMapping
+    public AbsResponse<Page<ProdutoDTO>> listar(@RequestParam int page, @RequestParam int size) {
+        ListarProdutosRequest request = new ListarProdutosRequest(page, size);
+        AbsResponse<Page<ProdutoDTO>> response = service.listar(request);
+        response.setStatusCode(200);
+        return response;
+    }
+
+    @GetMapping("/{sku}")
+    public ProdutoResponse buscarPorSku(@PathVariable String sku) throws ProdutoNaoEncontradoException {
+        return service.buscarPorSku(sku);
+    }
+}
+```
+
+Tratamento de erro com uma subclasse de `BasicException`:
+
+```java
+public class ProdutoNaoEncontradoException extends BasicException {
+    public ProdutoNaoEncontradoException(String sku, IRequest<?> request) {
+        super("Produto não encontrado", request, 404, Map.of("sku", sku));
+    }
+
+    @Override
+    public ProdutoNaoEncontradoException details(String key, Object value) {
+        addDetail(key, value);
+        return this;
+    }
+}
+
+@RestControllerAdvice
+public class ProdutoExceptionHandler {
+
+    @ExceptionHandler(ProdutoNaoEncontradoException.class)
+    public ResponseEntity<ApiErrorDTO> handle(ProdutoNaoEncontradoException ex) {
+        ApiErrorDTO erro = new ApiErrorDTO();
+        erro.setMsg(ex.getMessage());
+        erro.setStatusCode(ex.getStatusCode());
+        erro.setClassName(ex.getClass().getName());
+        erro.setDetails(ex.details());
+        erro.setRequest(ex.getRequest());
+        return ResponseEntity.status(ex.getStatusCode()).body(erro);
+    }
+}
+```
+
+Com a auto-configuração habilitada, o `ResponseStatusAdvice` garante que o status HTTP reflita o valor definido no `AbsResponse` ou no `BasicException`, evitando configurar o código manualmente em cada controller.【F:src/main/java/dev/nishisan/requests/common/spring/servlet/ResponseStatusAdvice.java†L22-L72】
+
+---
+
+## 🛠️ Compilando o projeto
+
+Clone o repositório e execute:
 
 ```bash
 mvn clean package
 ```
 
+O projeto utiliza Java 21 e Spring Boot 3.5; verifique se o toolchain está disponível antes de compilar.【F:pom.xml†L40-L48】
+
 ---
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a [Licença Pública Geral GNU v3.0](https://www.gnu.org/licenses/gpl-3.0.html). Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto é licenciado sob a [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). Consulte o arquivo `LICENSE` para mais detalhes.
 
 ---
 
 ## 📬 Contato
 
-Para dúvidas ou suporte, por favor, abra uma issue ou entre em contato em `github@nishisan.dev`.
+Dúvidas ou sugestões? Abra uma issue ou envie um e-mail para `github@nishisan.dev`.
