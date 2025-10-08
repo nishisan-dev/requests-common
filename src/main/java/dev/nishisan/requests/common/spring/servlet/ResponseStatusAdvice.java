@@ -1,4 +1,4 @@
-package dev.nishisan.requests.common.uc.spring.servlet;
+package dev.nishisan.requests.common.spring.servlet;
 
 import dev.nishisan.requests.common.exception.BasicException;
 import dev.nishisan.requests.common.response.AbsResponse;

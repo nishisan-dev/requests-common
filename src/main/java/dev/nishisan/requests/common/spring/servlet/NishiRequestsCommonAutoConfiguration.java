@@ -1,4 +1,4 @@
-package dev.nishisan.requests.common.uc.spring.servlet;
+package dev.nishisan.requests.common.spring.servlet;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
