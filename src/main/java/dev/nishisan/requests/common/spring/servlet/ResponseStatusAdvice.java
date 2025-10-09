@@ -57,12 +57,6 @@ public class ResponseStatusAdvice implements ResponseBodyAdvice<Object> {
                     ((ServletServerHttpResponse) response).getServletResponse().setStatus(absResponse.getStatusCode());
                 }
             }
-        } else if (body instanceof BasicException basicException){
-            if (response instanceof ServletServerHttpResponse) {
-                if (basicException.getStatusCode() > 0) {
-                    ((ServletServerHttpResponse) response).getServletResponse().setStatus(basicException.getStatusCode());
-                }
-            }
         }
         return body;
     }

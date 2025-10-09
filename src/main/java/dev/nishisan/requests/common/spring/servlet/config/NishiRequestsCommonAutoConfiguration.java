@@ -1,5 +1,6 @@
 package dev.nishisan.requests.common.spring.servlet.config;
 
+import dev.nishisan.requests.common.spring.servlet.ExceptionStatusAdvice;
 import dev.nishisan.requests.common.spring.servlet.ResponseStatusAdvice;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -18,4 +19,10 @@ public class NishiRequestsCommonAutoConfiguration {
     public ResponseStatusAdvice responseStatusAdvice() {
         return new ResponseStatusAdvice();
     }
+
+    @Bean
+    public ExceptionStatusAdvice exceptionStatusAdvice() {
+        return new ExceptionStatusAdvice();
+    }
+
 }
