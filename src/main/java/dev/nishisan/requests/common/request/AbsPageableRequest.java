@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Lucas Nishimura < lucas at nubsphere.com >
+ * Copyright (C) 2023 Lucas Nishimura < lucas at nishisan.dev >
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import dev.nishisan.requests.common.dto.PageableDTO;
 
 /**
  *
- * @author Lucas Nishimura < lucas at nubsphere.com >
+ * @author Lucas Nishimura < lucas at nishisan.dev >
  * @created 25.07.2023
  */
 public class AbsPageableRequest extends AbsRequest<PageableDTO> {

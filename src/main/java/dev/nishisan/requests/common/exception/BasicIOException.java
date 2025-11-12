@@ -18,66 +18,68 @@ package dev.nishisan.requests.common.exception;
 
 import dev.nishisan.requests.common.request.IRequest;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BasicException extends Exception implements Serializable, IBasicException {
+public abstract class BasicIOException extends IOException implements Serializable, IBasicException {
     protected IRequest<?> request;
     protected Integer statusCode = 500;
     private Map<String, Object> details = new HashMap<>();
 
 
-    public BasicException(){
+    public BasicIOException(){
 
     }
 
-    public BasicException(IRequest<?> request) {
+    public BasicIOException(IRequest<?> request) {
         this.request = request;
     }
 
-    public BasicException(String message){
+    public BasicIOException(String message){
         super(message);
     }
 
-    public BasicException(String message, Throwable th){
+    public BasicIOException(String message, Throwable th){
         super(message,th);
     }
 
-    public BasicException(String message, IRequest<?> request){
+    public BasicIOException(String message, IRequest<?> request){
         super(message);
         this.request = request;
     }
 
-    public BasicException(IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicIOException(IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(String message, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicIOException(String message, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(String message, Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicIOException(String message, Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message, cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicIOException(Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public BasicIOException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+
+        super(message, cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
