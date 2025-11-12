@@ -22,61 +22,61 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BasicException extends Exception implements Serializable, IBasicException {
+public abstract class BasicRuntimeException extends RuntimeException implements Serializable, IBasicException {
     protected IRequest<?> request;
     protected Integer statusCode = 500;
     private Map<String, Object> details = new HashMap<>();
 
 
-    public BasicException(){
+    public BasicRuntimeException(){
 
     }
 
-    public BasicException(IRequest<?> request) {
+    public BasicRuntimeException(IRequest<?> request) {
         this.request = request;
     }
 
-    public BasicException(String message){
+    public BasicRuntimeException(String message){
         super(message);
     }
 
-    public BasicException(String message, Throwable th){
+    public BasicRuntimeException(String message, Throwable th){
         super(message,th);
     }
 
-    public BasicException(String message, IRequest<?> request){
+    public BasicRuntimeException(String message, IRequest<?> request){
         super(message);
         this.request = request;
     }
 
-    public BasicException(IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicRuntimeException(IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(String message, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicRuntimeException(String message, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(String message, Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicRuntimeException(String message, Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message, cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicRuntimeException(Throwable cause, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(cause);
         this.request = request;
         this.statusCode = statusCode;
         this.details = details;
     }
 
-    public BasicException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
+    public BasicRuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, IRequest<?> request, Integer statusCode, Map<String, Object> details) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.request = request;
         this.statusCode = statusCode;
